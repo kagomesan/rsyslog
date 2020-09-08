@@ -101,14 +101,14 @@ $template bigip,"/var/log/bigip/bigip_%$year%%$month%%$day%.log"
 local0.* ?bigip
 
 #local4.*                                                /var/log/forti
-$template forti,"/var/log/forti/forti_%$year%%$month%%$day%.log"
+$template forti,"/var/log/forti/hoge_%$year%%$month%%$day%.log"
 local4.* ?forti
 $ActionMailSMTPServer localhost
 $ActionMailFrom root@localhost
 $ActionMailTo admin
 $template mail_subject_forti,"Fortigate config changed: %fromhost%"
 $template mail_body,"%fromhost% is configured..\r\n%msg%"
-$ActionMailSubject mail_subject_forti
+$ActionMailSubject mail_subject_hoge
 $ActionExecOnlyOnceEveryInterval -1
 if $fromhost=='hoge' and $msg contains 'changed' then :ommail:;mail_body
 
@@ -118,7 +118,7 @@ $template mbody,"%fromhost% is login at %timegenerated%..\r\n%msg%"
 if $fromhost=='hoge' and $msg contains 'action=login' then ^/root/slack.sh;mbody
 
 $template mftp,"%fromhost% detect ftp access..\r\n%msg%"
-if $fromhost=='hoge' then ^/root/forti-ftp.sh;mftp
+if $fromhost=='hoge' then ^/root/hoge-ftp.sh;mftp
 
 
 #sql
