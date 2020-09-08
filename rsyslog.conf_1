@@ -14,7 +14,7 @@ $ModLoad ommail
 # Provides UDP syslog reception
 $ModLoad imudp
 $UDPServerRun 514
-$AllowedSender UDP, 127.0.0.1,192.168.11.0/24
+$AllowedSender UDP, 127.0.0.1,xxx.xxx.xxx.0/24
 
 # Provides TCP syslog reception
 #$ModLoad imtcp
@@ -49,7 +49,7 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 authpriv.*                                              /var/log/secure
 
 $template mbody,"%fromhost% is login at %timegenerated%..\r\n%msg%"
-#if $fromhost=='proton3' and $msg contains 'Accepted' then ^/root/slack.sh;mbody
+#if $fromhost=='hoge' and $msg contains 'Accepted' then ^/root/slack.sh;mbody
 if $msg contains 'Accepted' then ^/root/slack.sh;mbody
 
 
@@ -91,7 +91,7 @@ $template mailbody,"Login to %fromhost% ..\r\n%msg%"
 $ActionMailSubject mailsubject
 $ActionExecOnlyOnceEveryInterval -1
 #if $msg contains_i 'logged in' then :ommail:;mailbody
-if $fromhost=='yota-fw' and $msg contains_i 'logged in' then :ommail:;mailbody
+if $fromhost=='hoge' and $msg contains_i 'logged in' then :ommail:;mailbody
 
 # trap log
 local5.*                                                /var/log/snmptrapd.log
@@ -110,15 +110,15 @@ $template mail_subject_forti,"Fortigate config changed: %fromhost%"
 $template mail_body,"%fromhost% is configured..\r\n%msg%"
 $ActionMailSubject mail_subject_forti
 $ActionExecOnlyOnceEveryInterval -1
-if $fromhost=='forti' and $msg contains 'changed' then :ommail:;mail_body
+if $fromhost=='hoge' and $msg contains 'changed' then :ommail:;mail_body
 
-$template msubject,"Fortigate login: %fromhost%"
+$template msubject,"hoge login: %fromhost%"
 $template mbody,"%fromhost% is login at %timegenerated%..\r\n%msg%"
-#if $fromhost=='yota-forti' and $msg contains 'action=login' then ^/root/forti-alert.sh;mbody
-if $fromhost=='yota-forti' and $msg contains 'action=login' then ^/root/slack.sh;mbody
+#if $fromhost=='hoge' and $msg contains 'action=login' then ^/root/hoge-alert.sh;mbody
+if $fromhost=='hoge' and $msg contains 'action=login' then ^/root/slack.sh;mbody
 
 $template mftp,"%fromhost% detect ftp access..\r\n%msg%"
-if $fromhost=='forti' then ^/root/forti-ftp.sh;mftp
+if $fromhost=='hoge' then ^/root/forti-ftp.sh;mftp
 
 
 #sql
